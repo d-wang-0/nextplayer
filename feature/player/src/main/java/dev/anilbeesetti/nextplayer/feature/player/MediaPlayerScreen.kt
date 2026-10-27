@@ -88,6 +88,10 @@ internal fun MediaPlayerContent(
         seekIncrementMillis = playerPreferences.seekIncrement.seconds.inWholeMilliseconds,
         useLongPressGesture = playerPreferences.useLongPressControls,
         longPressSpeed = playerPreferences.longPressControlsSpeed,
+        useSwipeSpeedGesture = playerPreferences.useSwipeSpeedControls,
+        swipeSpeedMaxForward = playerPreferences.swipeSpeedMaxForward,
+        swipeSpeedMaxRewind = playerPreferences.swipeSpeedMaxRewind,
+        swipeSpeedSensitivity = playerPreferences.swipeSpeedSensitivity,
     )
     val seekGestureState = rememberSeekGestureState(
         player = player,

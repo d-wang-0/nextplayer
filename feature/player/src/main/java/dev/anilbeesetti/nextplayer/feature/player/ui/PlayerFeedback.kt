@@ -134,11 +134,26 @@ internal fun BoxScope.PlayerGestureIndicators(tapGestureState: TapGestureState) 
                     vertical = 8.dp,
                 ),
             ) {
+                val swipeSpeed = tapGestureState.swipeSpeed
                 Text(
-                    text = stringResource(
-                        coreUiR.string.fast_playback_speed,
-                        tapGestureState.longPressSpeed,
-                    ),
+                    text = when {
+                        !tapGestureState.isSwipeSpeedGestureInAction -> stringResource(
+                            coreUiR.string.fast_playback_speed,
+                            tapGestureState.longPressSpeed,
+                        )
+
+                        swipeSpeed < 0f -> stringResource(
+                            coreUiR.string.swipe_speed_rewind,
+                            -swipeSpeed,
+                        )
+
+                        swipeSpeed > 0f -> stringResource(
+                            coreUiR.string.fast_playback_speed,
+                            swipeSpeed,
+                        )
+
+                        else -> stringResource(coreUiR.string.swipe_speed_hint)
+                    },
                     style = MaterialTheme.typography.labelLarge,
                 )
             }

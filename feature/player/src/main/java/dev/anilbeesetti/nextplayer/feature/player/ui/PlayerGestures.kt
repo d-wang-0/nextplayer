@@ -1,11 +1,14 @@
 package dev.anilbeesetti.nextplayer.feature.player.ui
 
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import dev.anilbeesetti.nextplayer.feature.player.extensions.detectCustomHorizontalDragGestures
 import dev.anilbeesetti.nextplayer.feature.player.extensions.detectCustomTransformGestures
@@ -56,6 +59,32 @@ fun PlayerGestures(
                         },
                     )
                 }
+                .pointerInput(tapGestureState) {
+                    // Only reads the finger position on the Initial pass, so the swipe keeps
+                    // working after the long press detector consumes the pointer events.
+                    awaitEachGesture {
+                        awaitFirstDown(
+                            requireUnconsumed = false,
+                            pass = PointerEventPass.Initial,
+                        )
+                        var swipeStarted = false
+                        do {
+                            val event = awaitPointerEvent(pass = PointerEventPass.Initial)
+                            if (tapGestureState.isSwipeSpeedGestureInAction) {
+                                val change = event.changes.first()
+                                if (swipeStarted) {
+                                    tapGestureState.onSwipeSpeedDrag(change)
+                                } else {
+                                    swipeStarted = true
+                                    tapGestureState.onSwipeSpeedDragStart(
+                                        offset = change.position,
+                                        size = size,
+                                    )
+                                }
+                            }
+                        } while (event.changes.any { it.pressed })
+                    }
+                }
                 .pointerInput(
                     seekGestureState,
                     controlsVisibilityState.controlsLocked,
@@ -65,7 +94,12 @@ fun PlayerGestures(
                     if (pictureInPictureState.isInPictureInPictureMode) return@pointerInput
 
                     detectCustomHorizontalDragGestures(
-                        onDragStart = seekGestureState::onDragStart,
+                        onDragStart = {
+                            // A long press with swipe speed owns the horizontal drag
+                            if (!tapGestureState.isSwipeSpeedGestureInAction) {
+                                seekGestureState.onDragStart(it)
+                            }
+                        },
                         onHorizontalDrag = seekGestureState::onDrag,
                         onDragCancel = seekGestureState::onDragEnd,
                         onDragEnd = seekGestureState::onDragEnd,

@@ -274,6 +274,111 @@ private fun GesturePreferencesScreenContent(
                         )
                     },
                 )
+                PreferenceSwitch(
+                    title = stringResource(id = R.string.swipe_speed_gesture),
+                    description = stringResource(id = R.string.swipe_speed_gesture_desc),
+                    icon = NextIcons.Speed,
+                    isChecked = state.preferences.useSwipeSpeedControls,
+                    onClick = { onAction(GesturePreferencesUiEvent.ToggleUseSwipeSpeedControls) },
+                )
+                PreferenceSlider(
+                    title = stringResource(R.string.swipe_speed_max_forward),
+                    description = stringResource(
+                        R.string.playback_speed_value,
+                        state.preferences.swipeSpeedMaxForward,
+                    ),
+                    icon = NextIcons.Speed,
+                    enabled = state.preferences.useSwipeSpeedControls,
+                    value = state.preferences.swipeSpeedMaxForward,
+                    valueRange = 1.5f..8.0f,
+                    onValueChange = {
+                        onAction(GesturePreferencesUiEvent.UpdateSwipeSpeedMaxForward(value = it))
+                    },
+                    trailingContent = {
+                        FilledIconButton(
+                            enabled = state.preferences.useSwipeSpeedControls,
+                            onClick = {
+                                onAction(
+                                    GesturePreferencesUiEvent.UpdateSwipeSpeedMaxForward(
+                                        PlayerPreferences.DEFAULT_SWIPE_SPEED_MAX_FORWARD,
+                                    ),
+                                )
+                            },
+                        ) {
+                            Icon(
+                                imageVector = NextIcons.History,
+                                contentDescription = stringResource(
+                                    id = R.string.reset_swipe_speed_max_forward,
+                                ),
+                            )
+                        }
+                    },
+                )
+                PreferenceSlider(
+                    title = stringResource(R.string.swipe_speed_max_rewind),
+                    description = stringResource(
+                        R.string.playback_speed_value,
+                        state.preferences.swipeSpeedMaxRewind,
+                    ),
+                    icon = NextIcons.Replay,
+                    enabled = state.preferences.useSwipeSpeedControls,
+                    value = state.preferences.swipeSpeedMaxRewind,
+                    valueRange = 1.0f..8.0f,
+                    onValueChange = {
+                        onAction(GesturePreferencesUiEvent.UpdateSwipeSpeedMaxRewind(value = it))
+                    },
+                    trailingContent = {
+                        FilledIconButton(
+                            enabled = state.preferences.useSwipeSpeedControls,
+                            onClick = {
+                                onAction(
+                                    GesturePreferencesUiEvent.UpdateSwipeSpeedMaxRewind(
+                                        PlayerPreferences.DEFAULT_SWIPE_SPEED_MAX_REWIND,
+                                    ),
+                                )
+                            },
+                        ) {
+                            Icon(
+                                imageVector = NextIcons.History,
+                                contentDescription = stringResource(
+                                    id = R.string.reset_swipe_speed_max_rewind,
+                                ),
+                            )
+                        }
+                    },
+                )
+                PreferenceSlider(
+                    title = stringResource(R.string.swipe_speed_sensitivity),
+                    description = state.preferences.swipeSpeedSensitivity.toString(
+                        decimalPlaces = 2,
+                    ),
+                    icon = NextIcons.Sensitivity,
+                    enabled = state.preferences.useSwipeSpeedControls,
+                    value = state.preferences.swipeSpeedSensitivity,
+                    valueRange = 0.2f..1.0f,
+                    onValueChange = {
+                        onAction(GesturePreferencesUiEvent.UpdateSwipeSpeedSensitivity(value = it))
+                    },
+                    trailingContent = {
+                        FilledIconButton(
+                            enabled = state.preferences.useSwipeSpeedControls,
+                            onClick = {
+                                onAction(
+                                    GesturePreferencesUiEvent.UpdateSwipeSpeedSensitivity(
+                                        PlayerPreferences.DEFAULT_SWIPE_SPEED_SENSITIVITY,
+                                    ),
+                                )
+                            },
+                        ) {
+                            Icon(
+                                imageVector = NextIcons.History,
+                                contentDescription = stringResource(
+                                    id = R.string.reset_swipe_speed_sensitivity,
+                                ),
+                            )
+                        }
+                    },
+                )
                 PreferenceSlider(
                     title = stringResource(R.string.seek_increment),
                     description = stringResource(

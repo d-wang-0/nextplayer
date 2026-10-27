@@ -50,6 +50,9 @@ class GesturePreferencesViewModel(
 
             is GesturePreferencesUiEvent.ToggleUseLongPressControls -> toggleUseLongPressControls()
 
+            is GesturePreferencesUiEvent.ToggleUseSwipeSpeedControls ->
+                toggleUseSwipeSpeedControls()
+
             is GesturePreferencesUiEvent.ToggleDoubleTapGesture -> toggleDoubleTapGesture()
 
             is GesturePreferencesUiEvent.ToggleEnableBrightnessSwipeGesture ->
@@ -68,6 +71,15 @@ class GesturePreferencesViewModel(
                 updateLongPressControlsSpeed(
                     action.value,
                 )
+
+            is GesturePreferencesUiEvent.UpdateSwipeSpeedMaxForward ->
+                updateSwipeSpeedMaxForward(action.value)
+
+            is GesturePreferencesUiEvent.UpdateSwipeSpeedMaxRewind ->
+                updateSwipeSpeedMaxRewind(action.value)
+
+            is GesturePreferencesUiEvent.UpdateSwipeSpeedSensitivity ->
+                updateSwipeSpeedSensitivity(action.value)
 
             is GesturePreferencesUiEvent.UpdateSeekIncrement -> updateSeekIncrement(action.value)
 
@@ -101,6 +113,14 @@ class GesturePreferencesViewModel(
         viewModelScope.launch {
             preferencesRepository.updatePlayerPreferences {
                 it.copy(useLongPressControls = !it.useLongPressControls)
+            }
+        }
+    }
+
+    private fun toggleUseSwipeSpeedControls() {
+        viewModelScope.launch {
+            preferencesRepository.updatePlayerPreferences {
+                it.copy(useSwipeSpeedControls = !it.useSwipeSpeedControls)
             }
         }
     }
@@ -173,6 +193,30 @@ class GesturePreferencesViewModel(
         }
     }
 
+    private fun updateSwipeSpeedMaxForward(value: Float) {
+        viewModelScope.launch {
+            preferencesRepository.updatePlayerPreferences {
+                it.copy(swipeSpeedMaxForward = value.round(decimalPlaces = 1))
+            }
+        }
+    }
+
+    private fun updateSwipeSpeedMaxRewind(value: Float) {
+        viewModelScope.launch {
+            preferencesRepository.updatePlayerPreferences {
+                it.copy(swipeSpeedMaxRewind = value.round(decimalPlaces = 1))
+            }
+        }
+    }
+
+    private fun updateSwipeSpeedSensitivity(value: Float) {
+        viewModelScope.launch {
+            preferencesRepository.updatePlayerPreferences {
+                it.copy(swipeSpeedSensitivity = value.round(decimalPlaces = 2))
+            }
+        }
+    }
+
     private fun updateSeekSensitivity(value: Float) {
         viewModelScope.launch {
             preferencesRepository.updatePlayerPreferences {
@@ -215,6 +259,7 @@ sealed interface GesturePreferencesUiEvent {
     data class ShowDialog(val value: GesturePreferenceDialog?) : GesturePreferencesUiEvent
     data class UpdateDoubleTapGesture(val gesture: DoubleTapGesture) : GesturePreferencesUiEvent
     data object ToggleUseLongPressControls : GesturePreferencesUiEvent
+    data object ToggleUseSwipeSpeedControls : GesturePreferencesUiEvent
     data object ToggleDoubleTapGesture : GesturePreferencesUiEvent
     data object ToggleEnableBrightnessSwipeGesture : GesturePreferencesUiEvent
     data object ToggleEnableVolumeSwipeGesture : GesturePreferencesUiEvent
@@ -222,6 +267,9 @@ sealed interface GesturePreferencesUiEvent {
     data object ToggleUseZoomControls : GesturePreferencesUiEvent
     data object ToggleEnablePanGesture : GesturePreferencesUiEvent
     data class UpdateLongPressControlsSpeed(val value: Float) : GesturePreferencesUiEvent
+    data class UpdateSwipeSpeedMaxForward(val value: Float) : GesturePreferencesUiEvent
+    data class UpdateSwipeSpeedMaxRewind(val value: Float) : GesturePreferencesUiEvent
+    data class UpdateSwipeSpeedSensitivity(val value: Float) : GesturePreferencesUiEvent
     data class UpdateSeekIncrement(val value: Int) : GesturePreferencesUiEvent
     data class UpdateSeekSensitivity(val value: Float) : GesturePreferencesUiEvent
     data class UpdateVolumeGestureSensitivity(val value: Float) : GesturePreferencesUiEvent

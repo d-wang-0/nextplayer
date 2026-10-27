@@ -32,6 +32,10 @@ data class PlayerPreferences(
     val doubleTapGesture: DoubleTapGesture = DoubleTapGesture.BOTH,
     val useLongPressControls: Boolean = false,
     val longPressControlsSpeed: Float = 2.0f,
+    val useSwipeSpeedControls: Boolean = false,
+    val swipeSpeedMaxForward: Float = DEFAULT_SWIPE_SPEED_MAX_FORWARD,
+    val swipeSpeedMaxRewind: Float = DEFAULT_SWIPE_SPEED_MAX_REWIND,
+    val swipeSpeedSensitivity: Float = DEFAULT_SWIPE_SPEED_SENSITIVITY,
     val seekIncrement: Int = DEFAULT_SEEK_INCREMENT,
     val seekSensitivity: Float = DEFAULT_SEEK_SENSITIVITY,
     val volumeGestureSensitivity: Float = DEFAULT_VOLUME_GESTURE_SENSITIVITY,
@@ -65,6 +69,9 @@ data class PlayerPreferences(
     companion object {
         const val DEFAULT_SEEK_INCREMENT = 10
         const val DEFAULT_SEEK_SENSITIVITY = 0.50f
+        const val DEFAULT_SWIPE_SPEED_MAX_FORWARD = 4.0f
+        const val DEFAULT_SWIPE_SPEED_MAX_REWIND = 4.0f
+        const val DEFAULT_SWIPE_SPEED_SENSITIVITY = 0.5f
         const val DEFAULT_VOLUME_GESTURE_SENSITIVITY = 0.50f
         const val DEFAULT_BRIGHTNESS_GESTURE_SENSITIVITY = 0.50f
         const val DEFAULT_SUBTITLE_TEXT_SIZE = 20

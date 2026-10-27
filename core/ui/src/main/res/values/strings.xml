@@ -170,6 +170,17 @@
     <string name="fast_playback_speed">%.1fx speed</string>
     <string name="long_press_gesture">Long press gesture</string>
     <string name="long_press_gesture_desc">Long press to play at %.1fx speed</string>
+    <string name="swipe_speed_gesture">Swipe speed</string>
+    <string name="swipe_speed_gesture_desc">Long press, then swipe right to speed up or left to rewind</string>
+    <string name="swipe_speed_max_forward">Swipe speed max forward speed</string>
+    <string name="swipe_speed_max_rewind">Swipe speed max rewind speed</string>
+    <string name="swipe_speed_sensitivity">Swipe speed sensitivity</string>
+    <string name="playback_speed_value">%.1fx</string>
+    <string name="reset_swipe_speed_max_forward">Reset swipe speed max forward speed</string>
+    <string name="reset_swipe_speed_max_rewind">Reset swipe speed max rewind speed</string>
+    <string name="reset_swipe_speed_sensitivity">Reset swipe speed sensitivity</string>
+    <string name="swipe_speed_hint">Swipe left or right</string>
+    <string name="swipe_speed_rewind">Rewinding %.1fx</string>
     <string name="best_fit">Best fit</string>
     <string name="stretch">Stretch</string>
     <string name="crop">Crop</string>
